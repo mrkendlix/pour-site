@@ -1,0 +1,29 @@
+/* Pour web pages (BRAND.md): Linen ground, Cellar text, Merlot accent. */
+:root {
+  --linen: #F7F2EE; --cellar: #1E1418; --stone: #6B5F63; --merlot: #7A1E2C;
+  --surface: #FFFFFF; --cork: #E6DDD8; --chablis: #E9C46A;
+}
+* { box-sizing: border-box; }
+html { background: var(--linen); }
+body {
+  margin: 0; background: var(--linen); color: var(--cellar);
+  font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif; font-size: 17px; line-height: 1.5;
+}
+main { max-width: 640px; margin: 0 auto; padding: 32px 24px 64px; }
+.wordmark { width: 120px; height: auto; color: var(--cellar); display: block; }
+h1, h2 { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+h1 { font-size: 40px; margin: 40px 0 12px; }
+h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin: 32px 0 8px; }
+p, li { color: var(--cellar); }
+.muted { color: var(--stone); font-size: 15px; }
+a { color: var(--merlot); }
+.card { background: var(--surface); border-radius: 24px; padding: 20px; margin: 20px 0; }
+.button {
+  display: inline-block; min-height: 56px; padding: 16px 28px; border-radius: 28px; border: 0;
+  background: var(--merlot); color: #FFFFFF; font: 600 17px/24px 'Instrument Sans', system-ui, sans-serif;
+  text-decoration: none; cursor: pointer;
+}
+.button.secondary { background: transparent; color: var(--cellar); box-shadow: inset 0 0 0 2px var(--cellar); }
+.username { font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 28px; color: var(--merlot); overflow-wrap: anywhere; }
+ol { padding-left: 22px; }
+footer { margin-top: 48px; }
