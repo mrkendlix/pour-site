@@ -8,11 +8,12 @@
 <div class="card">
   <ol>
     <li id="step-get">Get Pour on TestFlight: <span id="testflight-pending" class="muted">the test opens soon. Check back on this page.</span></li>
-    <li>Open Pour, confirm you're 21 or older, and sign in with Apple.</li>
-    <li id="step-invite">When Pour asks <strong>"Who invited you?"</strong>, type your friend's username. You'll be friends right away, and it helps them unlock new share themes.</li>
+    <li id="step-invite">Pour is invite only for now, so you need your friend's invite code. This link is missing it: ask your friend to send their invite link again.</li>
+    <li>In Pour, tap <strong>Get started</strong>, confirm you're 21 or older, and sign up with Apple, Google or email.</li>
   </ol>
+  <p id="open-wrap" hidden><a class="button secondary" id="open" href="#">Open Pour</a> <span class="muted">Once Pour is installed, tap this and your invite is filled in for you.</span></p>
   <p id="testflight-wrap" hidden><a class="button" id="testflight" href="#">Get Pour on TestFlight</a></p>
-  <p id="copy-wrap" hidden><button class="button secondary" id="copy" type="button">Copy username</button> <span class="muted" id="copied" role="status"></span></p>
+  <p id="copy-wrap" hidden><button class="button secondary" id="copy" type="button">Copy invite code</button> <span class="muted" id="copied" role="status"></span></p>
 </div>
 <p class="muted">Pour is for people 21 and older. <a href="privacy.html">Privacy policy</a></p>
 <script>
@@ -20,14 +21,22 @@
   var TESTFLIGHT_URL = '';
   var raw = new URLSearchParams(location.search).get('u') || '';
   var username = /^[A-Za-z0-9_]{3,20}$/.test(raw) ? raw : '';
+  var rawCode = new URLSearchParams(location.search).get('c') || '';
+  var code = /^[A-Za-z0-9]{4,20}$/.test(rawCode) ? rawCode : '';
   if (username) {
     document.getElementById('who').textContent = '@' + username;
     document.title = '@' + username + ' invited you to Pour';
-    document.getElementById('step-invite').innerHTML = 'When Pour asks <strong>"Who invited you?"</strong>, type <strong></strong>. You\'ll be friends right away, and it helps them unlock new share themes.';
-    document.querySelector('#step-invite strong:last-of-type').textContent = username;
+  }
+  if (username && code) {
+    // Pour is invite only for now (0023): the code is the invite.
+    document.getElementById('step-invite').innerHTML = 'Tap <strong>Open Pour</strong> below and your invite is filled in, or type the invite code <strong></strong> when Pour asks. You\'ll be friends with @<span></span> right away.';
+    document.querySelector('#step-invite strong:last-of-type').textContent = code;
+    document.querySelector('#step-invite span').textContent = username;
     document.getElementById('copy-wrap').hidden = false;
+    document.getElementById('open').href = 'pour://u/' + username + '?c=' + encodeURIComponent(code);
+    document.getElementById('open-wrap').hidden = false;
     document.getElementById('copy').onclick = function () {
-      navigator.clipboard && navigator.clipboard.writeText(username).then(function () {
+      navigator.clipboard && navigator.clipboard.writeText(code).then(function () {
         document.getElementById('copied').textContent = 'Copied';
       });
     };
