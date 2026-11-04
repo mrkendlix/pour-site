@@ -9,7 +9,7 @@
   <ol>
     <li id="step-get">Get Pour on TestFlight: <span id="testflight-pending" class="muted">the test opens soon. Check back on this page.</span></li>
     <li id="step-invite">Pour is invite only for now, so you need your friend's invite code. This link is missing it: ask your friend to send their invite link again.</li>
-    <li>In Pour, tap <strong>Get started</strong>, confirm you're 21 or older, and sign up with Apple, Google or email.</li>
+    <li>In Pour, tap <strong>Create an account</strong>, confirm you're 21 or older, and sign up with Apple, Google or email.</li>
   </ol>
   <p id="open-wrap" hidden><a class="button secondary" id="open" href="#">Open Pour</a> <span class="muted">Once Pour is installed, tap this and your invite is filled in for you.</span></p>
   <p id="testflight-wrap" hidden><a class="button" id="testflight" href="#">Get Pour on TestFlight</a></p>
@@ -17,8 +17,8 @@
 </div>
 <p class="muted">Pour is for people 21 and older. <a href="privacy.html">Privacy policy</a></p>
 <script>
-  // The TestFlight public link goes here once the first build is out.
-  var TESTFLIGHT_URL = '';
+  // The TestFlight public link (Nick, 2026-11-04).
+  var TESTFLIGHT_URL = 'https://testflight.apple.com/join/Jssm5HcF';
   var raw = new URLSearchParams(location.search).get('u') || '';
   var username = /^[A-Za-z0-9_]{3,20}$/.test(raw) ? raw : '';
   var rawCode = new URLSearchParams(location.search).get('c') || '';
@@ -34,6 +34,21 @@
     document.querySelector('#step-invite span').textContent = username;
     document.getElementById('copy-wrap').hidden = false;
     document.getElementById('open').href = 'pour://u/' + username + '?c=' + encodeURIComponent(code);
+    document.getElementById('open-wrap').hidden = false;
+    document.getElementById('copy').onclick = function () {
+      navigator.clipboard && navigator.clipboard.writeText(code).then(function () {
+        document.getElementById('copied').textContent = 'Copied';
+      });
+    };
+  }
+  if (!username && code) {
+    // An invite from the waitlist (a wave, 0033): no friend comes with it.
+    document.querySelector('h1').textContent = "You're invited to Pour";
+    document.title = "You're invited to Pour";
+    document.getElementById('step-invite').innerHTML = 'Tap <strong>Open Pour</strong> below and your invite is filled in, or type the invite code <strong></strong> when Pour asks.';
+    document.querySelector('#step-invite strong:last-of-type').textContent = code;
+    document.getElementById('copy-wrap').hidden = false;
+    document.getElementById('open').href = 'pour://invite-code?c=' + encodeURIComponent(code);
     document.getElementById('open-wrap').hidden = false;
     document.getElementById('copy').onclick = function () {
       navigator.clipboard && navigator.clipboard.writeText(code).then(function () {
